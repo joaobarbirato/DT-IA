@@ -27,11 +27,7 @@ wget https://archive.ics.uci.edu/ml/machine-learning-databases/00479/SomervilleH
 wget #TODO: endereço da base de dados
 ```
 
-## Instale os pacotes R ``rpart`` e ``rpart.plot``
-
-```shell
-R
-```
+## 1.2. Instale os pacotes R ``rpart`` e ``rpart.plot``
 ```R
 > install.packages("rpart")
 #(...)
@@ -40,9 +36,6 @@ R
 ```
 
 ## 2. Execução
-```shell
-R   
-```
 ```R
 source('classificacao.R')
 #(...)

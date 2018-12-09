@@ -30,7 +30,7 @@ wget #TODO: endereço da base de dados
 ## Instale os pacotes R ``rpart`` e ``rpart.plot``
 
 ```shell
-$ R
+R
 ```
 ```R
 > install.packages("rpart")

@@ -28,11 +28,7 @@ wget https://archive.ics.uci.edu/ml/machine-learning-databases/00477/Real%20esta
 ```
 - **OBS**: é necessário convertê-lo para arquivo CSV
 
-## Instale os pacotes R ``rpart`` e ``rpart.plot``
-
-```shell
-$ R
-```
+## 1.2. Instale os pacotes R ``rpart`` e ``rpart.plot``
 ```R
 > install.packages("rpart")
 #(...)
@@ -41,9 +37,6 @@ $ R
 ```
 
 ## 2. Execução
-```shell
-R   
-```
 ```R
 source('classificacao.R')
 #(...)

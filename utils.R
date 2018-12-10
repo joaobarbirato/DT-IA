@@ -14,7 +14,9 @@
 ##      e teste (25%)
 ##  @Parâmetros:
 ##      - df: dataframe referente ao conjunto de daods
-dados.holdout <- function(df) {
+##      - tipo: 'classificacao' ou 'regressao'
+##      - alvo: atributo alvo (classe ou valor de regressão)
+dados.holdout <- function(df,tipo,alvo) {
     # dados embaralhados aleatoriamente
     sdados <- sample(df)
 
@@ -22,22 +24,44 @@ dados.holdout <- function(df) {
     porc_75 <- (nrow(df)*75) %/% 100
     metade_porc_75 = porc_75 %/% 2
 
-    treinamento <- rbind(
-        # Metade dos 75% da classe '1'
-        sdados[sdados['D']==1,][1:metade_porc_75,],
-        # Outra metade dos 75% da classe '0'
-        sdados[sdados['D']==0,][1:metade_porc_75,]
-    )
+    if(tipo == 'classificacao'){
+        treinamento <- rbind(
+            # Metade dos 75% da classe '1'
+            sdados[sdados[alvo]==1,][1:metade_porc_75,],
+            # Outra metade dos 75% da classe '0'
+            sdados[sdados[alvo]==0,][1:metade_porc_75,]
+        )
 
-    # Restante dos dados embaralhados
-    teste <- rbind(
-        sdados[sdados['D']==1,][metade_porc_75+1:nrow(sdados[dados['D']==1,]),],
-        sdados[sdados['D']==0,][metade_porc_75+1:nrow(sdados[dados['D']==0,]),]
-    )
+        # Restante dos dados embaralhados
+        teste <- rbind(
+            sdados[sdados[alvo]==1,][(metade_porc_75+1):nrow(sdados[sdados[alvo]==1,]),],
+            sdados[sdados[alvo]==0,][(metade_porc_75+1):nrow(sdados[sdados[alvo]==0,]),]
+        )
+        intervalo_teste <- (metade_porc_75+1):nrow(sdados[sdados[alvo]==0,])
+    }else if(tipo == 'regressao'){
+        media <- mean(sdados[alvo][,])
+
+        treinamento <- rbind(
+            # Metade dos 75% da classe >= media
+            sdados[sdados[alvo]>=media,][1:metade_porc_75,],
+            # Outra metade dos 75% da < media
+            sdados[sdados[alvo]<media,][1:metade_porc_75,]
+        )
+
+        # Restante dos dados embaralhados
+        teste <- rbind(
+            sdados[sdados[alvo]>=media,][(metade_porc_75+1):nrow(sdados[sdados[alvo]>=media,]),],
+            sdados[sdados[alvo]< media,][(metade_porc_75+1):nrow(sdados[sdados[alvo]<media,]),]
+        )
+        intervalo_teste <- (metade_porc_75+1):nrow(sdados[sdados[alvo]<media,])
+    }else{
+        return(-1)
+    }
 
     retorno <- list()
     retorno$treinamento <- treinamento
     retorno$teste  <- teste
+    retorno$intervalo_teste <- intervalo_teste
     return(retorno)
 }
 
@@ -49,13 +73,10 @@ dados.holdout <- function(df) {
 ##      - predito: vetor de classes preditas pelo classificador
 metricas.precisao <- function(verdadeiro,predito) {
     TAM <- length(verdadeiro)
-
     tp <- 0 # TRUE POSITIVES
     fp <- 0 # FALSE POSITIVES
     for (i in 1:TAM) {
         if (verdadeiro[i] == predito[i]){
-            # print("verdadeiro: ", verdadeiro[i])
-            # print("predito: ", predito[i])
             if(verdadeiro[i] == 1){
                 tp <- tp + 1
             }else{

@@ -24,8 +24,9 @@ wget https://archive.ics.uci.edu/ml/machine-learning-databases/00479/SomervilleH
 
 ### 1.1.2. Regressão
 ```shell
-wget #TODO: endereço da base de dados
+wget https://archive.ics.uci.edu/ml/machine-learning-databases/00477/Real%20estate%20valuation%20data%20set.xlsx
 ```
+- **OBS**: é necessário convertê-lo para arquivo CSV
 
 ## Instale os pacotes R ``rpart`` e ``rpart.plot``
 

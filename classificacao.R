@@ -28,7 +28,7 @@ main <- function() {
     )
 
     # Divisão dos dados (treino e teste)
-    dados_divididos <- dados.holdout(dados)
+    dados_divididos <- dados.holdout(dados,'classificacao','D')
 
     # Cria o modelo de árvore de decisão
     modelo_ad <- rpart(
@@ -40,12 +40,12 @@ main <- function() {
     )
 
     # Desenha a árvore
-    plot_ad <- rpart.plot(modelo_ad, type=3)
+    plot_ad <- rpart.plot(modelo_ad, type=3, roundint=FALSE)
 
     # Prevê os dados de teste
     y_preditos <- predict(
         modelo_ad,
-        dados[107:143,],
+        dados_divididos$teste,
         "class"
     )
 

@@ -20,7 +20,6 @@ source('utils.R')
 
 main <- function() {
     # Leitura do conjunto de dados
-    # TODO: definir o conjunto de dados
     dados <- read.table(
         'dados/Real_estate_valuation_dataset.csv', 
         header=TRUE, 
@@ -37,7 +36,7 @@ main <- function() {
     # Cria o modelo de árvore de decisão
     
     modelo_ad <- rpart(
-        Y~X1+X2+X3+X4+X5+X6, # TODO: pôr os atributos, quando o conjunto de dados estiver definido
+        Y~X1+X2+X3+X4+X5+X6,
         data=dados_divididos$treinamento,
         method="anova" # regressão
     )
